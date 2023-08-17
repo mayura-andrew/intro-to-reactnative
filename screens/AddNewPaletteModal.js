@@ -160,9 +160,7 @@ const COLORS = [
   { colorName: 'YellowGreen', hexCode: '#9ACD' },
 ];
 
-const AddNewPaletteModal = ({ navigation, route }) => {
-  const newColorPalette = route.params ? route.params.newColorPalette : undefined;
-
+const AddNewPaletteModal = ({ navigation }) => {
   const [name, setName] = useState('');
   const [selectedColors, setSelectedColors] = useState([]);
 
@@ -185,22 +183,11 @@ const AddNewPaletteModal = ({ navigation, route }) => {
     } else if (selectedColors.length < 3) {
       Alert.alert('Please choose at least 3 colors');
     } else {
-      const newColorPalette = { paletteName: name, colors: selectedColors };
-      navigation.navigate('Home', {newColorPalette});
+      navigation.navigate('Home', {
+        newPalette: { paletteName: name, colors: selectedColors },
+      });
     }
   }, [name, selectedColors]);
-
-  const handleSubmitNewColorPalette = useCallback(( value, color) => {
-    if (value === true) {
-      setSelectedColors(current => [...current, color]);
-    } else {
-      setSelectedColors(current =>
-        current.filter(c => c.colorName !== color.colorName),
-      );
-    }
-  }, [selectedColors, setSelectedColors]);
-  
-    
 
   return (
     <View style={styles.container}>
